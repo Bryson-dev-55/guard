@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FB Profile Guard - Protect Your Facebook Account</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .toggle-btn {
+            transition: all 0.3s ease;
+        }
+        .toggle-btn:hover {
+            transform: scale(1.05);
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-2xl mx-auto">
+        <!-- Header -->
+        <div class="glass-card rounded-2xl p-6 mb-6 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-cyan-500 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold text-cyan-400">PROFILE GUARD</h1>
+            </div>
+            <div class="bg-cyan-500 p-2 rounded-lg">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="glass-card rounded-2xl p-8 mb-6" id="profileCard">
+            <div class="text-center">
+                <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 p-1">
+                    <div class="w-full h-full rounded-full bg-gray-700 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                </div>
+                <h2 class="text-2xl font-bold text-white mb-2" id="userName">Guest User</h2>
+                <p class="text-gray-300 text-sm mb-2" id="userUID">UID: Not Connected</p>
+                <p class="text-cyan-400 mb-6" id="welcomeMsg">Welcome! Please import your Appstate.</p>
+                
+                <!-- Toggle Buttons -->
+                <div class="flex gap-4 justify-center mb-4" id="toggleButtons" style="display: none;">
+                    <button class="toggle-btn bg-green-500 text-white px-8 py-3 rounded-lg font-bold flex items-center gap-2" id="onBtn">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        ON
+                    </button>
+                    <button class="toggle-btn bg-red-500 text-white px-8 py-3 rounded-lg font-bold flex items-center gap-2" id="offBtn">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                        OFF
+                    </button>
+                </div>
+
+                <button class="text-red-400 hover:text-red-300 flex items-center gap-2 mx-auto" id="logoutBtn" style="display: none;">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Pfp Guard Section -->
+        <div class="glass-card rounded-2xl p-6 mb-6" id="pfpGuardSection">
+            <div class="flex items-center gap-3 mb-4">
+                <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                </svg>
+                <h3 class="text-xl font-bold text-cyan-400">Pfp Guard</h3>
+            </div>
+            
+            <p class="text-gray-300 text-sm mb-4">
+                Paste your <span class="text-cyan-400 font-semibold">Appstate</span> Json Download 
+                <a href="#" class="text-cyan-400 underline">Kiwi Browser</a> or 
+                <a href="#" class="text-cyan-400 underline">Webvium</a> to get an 
+                <span class="text-cyan-400 font-semibold">Appstate</span>.
+            </p>
+
+            <textarea 
+                id="appstateInput"
+                class="w-full bg-gray-800 text-gray-300 rounded-lg p-4 mb-4 font-mono text-sm resize-none"
+                rows="6"
+                placeholder='[{"key":"fb_dtsg","value":"AQHb..."}]'
+            ></textarea>
+
+            <button id="submitBtn" class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Submit
+            </button>
+
+            <div id="statusMsg" class="mt-4 text-center text-sm" style="display: none;"></div>
+        </div>
+
+        <!-- Import Feature -->
+        <div class="glass-card rounded-2xl p-6 mb-6">
+            <div class="flex items-center gap-3 mb-2">
+                <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                <h3 class="text-xl font-bold text-cyan-400">Import Feature</h3>
+            </div>
+            <p class="text-gray-300 text-sm">
+                Import <span class="text-cyan-400 font-semibold">Appstate</span> to enable Profile Guard easily.
+            </p>
+        </div>
+
+        <!-- Privacy Notice -->
+        <div class="glass-card rounded-2xl p-6">
+            <div class="flex items-center gap-3 mb-3">
+                <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+                <h3 class="text-xl font-bold text-cyan-400">Privacy Notice</h3>
+            </div>
+            
+            <p class="text-gray-300 text-sm mb-3">
+                Your <span class="text-cyan-400 font-semibold">Appstate</span> is only stored temporarily. We do not keep any data on our servers.
+            </p>
+            
+            <p class="text-red-400 text-sm mb-3">
+                <span class="font-bold">Important:</span> Your account must NOT be profile locked for Profile Guard to work!
+            </p>
+            
+            <p class="text-yellow-400 text-sm">
+                <span class="font-bold">Notice:</span> Exercise caution and refrain from sharing your cookie with any third party. Your cookie contains sensitive information crucial to the confidentiality and security of your account. We disclaim responsibility for any unauthorized account access. Users are strongly advised to use robust and unique passwords to safeguard their accounts.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let isLoggedIn = false;
+        let guardEnabled = false;
+
+        const appstateInput = document.getElementById('appstateInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusMsg = document.getElementById('statusMsg');
+        const userName = document.getElementById('userName');
+        const userUID = document.getElementById('userUID');
+        const welcomeMsg = document.getElementById('welcomeMsg');
+        const toggleButtons = document.getElementById('toggleButtons');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const onBtn = document.getElementById('onBtn');
+        const offBtn = document.getElementById('offBtn');
+        const pfpGuardSection = document.getElementById('pfpGuardSection');
+
+        submitBtn.addEventListener('click', async () => {
+            const appstate = appstateInput.value.trim();
+            
+            if (!appstate) {
+                showStatus('Please enter your Appstate!', 'error');
+                return;
+            }
+
+            try {
+                JSON.parse(appstate);
+            } catch (e) {
+                showStatus('Invalid JSON format!', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processing...';
+
+            // Simulate login
+            setTimeout(() => {
+                isLoggedIn = true;
+                const parsedAppstate = JSON.parse(appstate);
+                const fbDtsg = parsedAppstate.find(item => item.key === 'c_user');
+                const uid = fbDtsg ? fbDtsg.value : 'Unknown';
+                
+                userName.textContent = 'Jaymar Dev';
+                userUID.textContent = `UID: ${uid}`;
+                welcomeMsg.textContent = 'Welcome, Jaymar Dev!';
+                
+                toggleButtons.style.display = 'flex';
+                logoutBtn.style.display = 'flex';
+                pfpGuardSection.style.display = 'none';
+                
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Submit';
+                
+                showStatus('Login successful!', 'success');
+            }, 2000);
+        });
+
+        onBtn.addEventListener('click', () => {
+            guardEnabled = true;
+            onBtn.classList.add('ring-4', 'ring-green-300');
+            offBtn.classList.remove('ring-4', 'ring-red-300');
+            showStatus('Profile Guard is now ON', 'success');
+        });
+
+        offBtn.addEventListener('click', () => {
+            guardEnabled = false;
+            offBtn.classList.add('ring-4', 'ring-red-300');
+            onBtn.classList.remove('ring-4', 'ring-green-300');
+            showStatus('Profile Guard is now OFF', 'error');
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            isLoggedIn = false;
+            guardEnabled = false;
+            
+            userName.textContent = 'Guest User';
+            userUID.textContent = 'UID: Not Connected';
+            welcomeMsg.textContent = 'Welcome! Please import your Appstate.';
+            
+            toggleButtons.style.display = 'none';
+            logoutBtn.style.display = 'none';
+            pfpGuardSection.style.display = 'block';
+            
+            appstateInput.value = '';
+            onBtn.classList.remove('ring-4', 'ring-green-300');
+            offBtn.classList.remove('ring-4', 'ring-red-300');
+            
+            showStatus('Logged out successfully', 'success');
+        });
+
+        function showStatus(message, type) {
+            statusMsg.textContent = message;
+            statusMsg.className = `mt-4 text-center text-sm ${type === 'error' ? 'text-red-400' : 'text-green-400'}`;
+            statusMsg.style.display = 'block';
+            
+            setTimeout(() => {
+                statusMsg.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

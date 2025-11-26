@@ -1,12 +1,23 @@
 {
   "name": "fb-profile-guard",
   "version": "1.0.0",
-  "description": "Facebook Profile Guard Application",
+  "description": "Facebook Profile Guard - Protect Your Account with Advanced Security",
   "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
+  "keywords": [
+    "facebook",
+    "profile-guard",
+    "security",
+    "protection"
+  ],
+  "author": "bryson",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",
     "axios": "^1.6.0",
@@ -16,10 +27,3 @@
     "nodemon": "^3.0.1"
   }
 }
-```
-
-4. **.gitignore** (optional)
-```
-node_modules/
-.env
-*.log
